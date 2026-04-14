@@ -1,0 +1,113 @@
+<?php
+$auth = $_SESSION['user'][0];
+
+$segments = basename($_SERVER['PHP_SELF']);
+
+if ($segments === 'sidebar.php') {
+    header('location: ../dashboard.php');
+}
+?>
+
+<head>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            background: #c7b3b3;
+        }
+
+        .sidebar {
+            width: 220px;
+            height: 100vh;
+            background: #ffffff;
+            color: black;
+            position: sticky;
+            top: 0;
+            left: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .sidebar .top {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: black;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .current-url-active {
+            background: white;
+            color: black !important;
+            font-weight: bold;
+        }
+
+        .bottom {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .avatar {
+            width: 60px;
+            border-radius: 50%;
+        }
+
+        .logout-btn {
+            padding: 8px 12px;
+            background: crimson;
+            color: black;
+            border-radius: 6px;
+            text-decoration: none;
+            text-align: center;
+            width: 100%;
+        }
+
+        .main-content {
+            margin-left: 240px;
+            padding: 20px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="top">
+            <div class="logo">📚 LibraryApp</div>
+
+            <div class="nav-links">
+                <?php if ($auth['role'] === 'admin') : ?>
+                    <a class="<?= $segments === 'dashboard.php' ? 'current-url-active' : '' ?>" href="/perpus">Dashboard</a>
+                    <a class="<?= $segments === 'tampil_buku.php' || $segments === 'tambah_buku.php' || $segments == 'edit_buku.php' ? 'current-url-active' : '' ?>" href="/perpus/app/buku/tampil_buku.php">Kelola Buku</a>
+                    <a class="<?= $segments === 'kelola_peminjaman.php' ? 'current-url-active' : '' ?>" href="/perpus/app/peminjaman/kelola_peminjaman.php">Kelola Peminjaman</a>
+                    <a class="<?= $segments === 'kelola_user.php' ? 'current-url-active' : '' ?>" href="/perpus/app/users/kelola_user.php">Kelola Pengguna</a>
+                <?php elseif ($auth['role'] === 'user') : ?>
+                    <a class="<?= $segments === 'tampil_buku.php' ? 'current-url-active' : '' ?>" href="/perpus/app/buku/tampil_buku.php">Buku</a>
+                    <a class="<?= $segments === 'pinjam.php' ? 'current-url-active' : '' ?>" href="/perpus/app/peminjaman/history.php">History Peminjaman</a>
+                <?php endif; ?>
+                <a href="/perpus/auth/logout.php">Logout</a>
+            </div>
+        </div>
+    </div>
+</body>
