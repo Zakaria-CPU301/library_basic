@@ -6,10 +6,10 @@ if (empty($_SESSION['user'])) {
 include '../koneksi/koneksi.php';
 
 $queryUser = $koneksi->query('SELECT count(id) as total_user FROM user');
-$queryBuku = $koneksi->query('SELECT count(id) as total_buku FROM buku');
+$querybarang = $koneksi->query('SELECT count(id) as total_barang FROM barang');
 
 $totalUser = $queryUser->fetch_all(MYSQLI_ASSOC);
-$totalBuku = $queryBuku->fetch_all(MYSQLI_ASSOC);
+$totalbarang = $querybarang->fetch_all(MYSQLI_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -37,10 +37,10 @@ $totalBuku = $queryBuku->fetch_all(MYSQLI_ASSOC);
                 <?= $total['total_user'] ?>
             <?php endforeach; ?>
         </div>
-        <div class="total-buku">
-            <p>total buku: </p>
-            <?php foreach ($totalBuku as $total) : ?>
-                <?= $total['total_buku'] ?>
+        <div class="total-barang">
+            <p>total barang: </p>
+            <?php foreach ($totalbarang as $total) : ?>
+                <?= $total['total_barang'] ?>
             <?php endforeach; ?>
         </div>
     </div>

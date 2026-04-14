@@ -1,2 +1,2 @@
 <?php
-$koneksi = mysqli_connect("localhost", "root", "", "perpustakaan");
+$koneksi = mysqli_connect("localhost", "root", "", "peminjaman_barang");

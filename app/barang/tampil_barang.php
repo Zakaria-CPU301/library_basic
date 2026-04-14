@@ -2,7 +2,7 @@
 include '../../koneksi/koneksi.php';
 include '../../middleware/auth.php';
 
-$queryBook = $koneksi->query("SELECT b.*, k.nama_kategori FROM buku b
+$queryBook = $koneksi->query("SELECT b.*, k.nama_kategori FROM barang b
                                 INNER JOIN kategori k
                                 ON b.id_kategori = k.id"); //table
 $books = $queryBook->fetch_all(MYSQLI_ASSOC); //per baris
@@ -14,7 +14,7 @@ $books = $queryBook->fetch_all(MYSQLI_ASSOC); //per baris
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tampil Semua Buku</title>
+    <title>Tampil Semua barang</title>
     <style>
         * {
             margin: 0;
@@ -74,10 +74,10 @@ $books = $queryBook->fetch_all(MYSQLI_ASSOC); //per baris
             border: 1px solid #ddd;
         }
 
-        img.cover {
+        img.alamat_gambar {
             width: 40px;
             height: 60px;
-            object-fit: cover;
+            object-fit: alamat_gambar;
         }
 
         .action a {
@@ -112,7 +112,7 @@ $books = $queryBook->fetch_all(MYSQLI_ASSOC); //per baris
         .card img {
             width: 100%;
             height: 200px;
-            object-fit: cover;
+            object-fit: alamat_gambar;
         }
 
         .card-body {
@@ -150,8 +150,8 @@ $books = $queryBook->fetch_all(MYSQLI_ASSOC); //per baris
         <?php if ($auth['role'] === 'admin') : ?>
             <div class="table-container">
                 <header>
-                    <h1>Managemen Buku</h1>
-                    <a href="tambah_buku.php" class="btn">+ Tambah Buku</a>
+                    <h1>Managemen barang</h1>
+                    <a href="tambah_barang.php" class="btn">+ Tambah barang</a>
                 </header>
 
                 <table>
@@ -159,7 +159,7 @@ $books = $queryBook->fetch_all(MYSQLI_ASSOC); //per baris
                         <tr>
                             <th>No</th>
                             <th>Cover</th>
-                            <th>Judul Buku</th>
+                            <th>Judul barang</th>
                             <th>Pengarang</th>
                             <th>Status</th>
                             <th>Qty</th>
@@ -174,23 +174,23 @@ $books = $queryBook->fetch_all(MYSQLI_ASSOC); //per baris
                                 <td><?= $row + 1 ?></td>
 
                                 <td>
-                                    <img src="../images/<?= $data['cover'] ?>" class="cover">
+                                    <img src="../gambar/<?= $data['alamat_gambar'] ?>" class="alamat_gambar">
                                 </td>
 
-                                <td><?= $data['judul'] ?></td>
+                                <td><?= $data['nama_barang'] ?></td>
                                 <td><?= $data['pengarang'] ?></td>
                                 <td><?= $data['status'] ?></td>
                                 <td><?= $data['qty'] ?></td>
                                 <td><?= $data['nama_kategori'] ?></td>
 
                                 <td class="action">
-                                    <a href="edit_buku.php?id=<?= $data['id'] ?>" class="edit">Edit</a>
+                                    <a href="edit_barang.php?id=<?= $data['id'] ?>" class="edit">Edit</a>
                                 </td>
 
                                 <td class="action">
-                                    <a href="hapus_buku.php?id=<?= $data['id'] ?>"
+                                    <a href="hapus_barang.php?id=<?= $data['id'] ?>"
                                         class="delete"
-                                        onclick="return confirm('Yakin hapus buku?')">
+                                        onclick="return confirm('Yakin hapus barang?')">
                                         Hapus
                                     </a>
                                 </td>
@@ -200,22 +200,22 @@ $books = $queryBook->fetch_all(MYSQLI_ASSOC); //per baris
                 </table>
             </div>
 
-        <?php elseif ($auth['role'] === 'user') : ?>
+        <?php elseif ($auth['role'] === 'peminjam') : ?>
             <div class="card-container">
-                <h1>Daftar Buku</h1>
+                <h1>Daftar barang</h1>
 
                 <div class="grid">
                     <?php foreach ($books as $book) : ?>
                         <div class="card">
-                            <img src="<?= '../images/' . $book['cover']; ?>">
+                            <img src="<?= '../gambar/' . $book['alamat_gambar']; ?>">
 
                             <div class="card-body">
-                                <h4><?= $book['judul'] ?></h4>
+                                <h4><?= $book['nama_barang'] ?></h4>
                                 <small><?= $book['pengarang'] ?></small>
-                                <p><?= substr($book['sinopsis'], 0, 100) . ' ...' ?></p>
+                                <p><?= substr($book['deskripsi_barang'], 0, 100) . ' ...' ?></p>
                             </div>
 
-                            <a href="detail-buku.php?idb=<?= $book['id'] ?>">Lihat Buku</a>
+                            <a href="detail-barang.php?idb=<?= $book['id'] ?>">Lihat barang</a>
                         </div>
                     <?php endforeach; ?>
                 </div>

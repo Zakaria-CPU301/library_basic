@@ -3,7 +3,7 @@ include '../../koneksi/koneksi.php';
 include '../../middleware/auth.php';
 
 $queryKategori = $koneksi->query("SELECT * FROM kategori");
-$resultKategori = $queryKategori->fetch_all(MYSQLI_ASSOC);
+$hasilKategori = $queryKategori->fetch_all(MYSQLI_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +12,7 @@ $resultKategori = $queryKategori->fetch_all(MYSQLI_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buku Baru</title>
+    <title>barang Baru</title>
 
     <style>
         * {
@@ -98,13 +98,13 @@ $resultKategori = $queryKategori->fetch_all(MYSQLI_ASSOC);
     <?php include '../components/sidebar.php'; ?>
 
     <div class="container">
-        <h1>Tambah Buku Baru</h1>
+        <h1>Tambah barang Baru</h1>
 
-        <form action="proses_tambah_buku.php" method="post" enctype="multipart/form-data">
-            <input type="file" name="cover">
+        <form action="proses_tambah_barang.php" method="post" enctype="multipart/form-data">
+            <input type="file" name="alamat_gambar">
 
-            <input type="text" name="judul" placeholder="Judul buku">
-            <input type="text" name="pengarang" placeholder="Pengarang buku">
+            <input type="text" name="nama_barang" placeholder="Judul barang">
+            <input type="text" name="pengarang" placeholder="Pengarang barang">
 
             <input type="number" name="qty" placeholder="Qty" min="1">
 
@@ -114,16 +114,16 @@ $resultKategori = $queryKategori->fetch_all(MYSQLI_ASSOC);
             </select>
 
             <select name="kategori">
-                <?php foreach ($resultKategori as $data) : ?>
+                <?php foreach ($hasilKategori as $data) : ?>
                     <option value="<?= $data['id'] ?>">
                         <?= $data['nama_kategori'] ?>
                     </option>
                 <?php endforeach; ?>
             </select>
 
-            <textarea name="sinopsis" placeholder="Sinopsis buku..."></textarea>
+            <textarea name="deskripsi_barang" placeholder="Sinopsis barang..."></textarea>
 
-            <button type="submit">Simpan Buku</button>
+            <button type="submit">Simpan barang</button>
         </form>
     </div>
 </body>

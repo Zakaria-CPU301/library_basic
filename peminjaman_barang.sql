@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 14, 2026 at 03:05 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Waktu pembuatan: 15 Apr 2026 pada 01.14
+-- Versi server: 10.4.32-MariaDB
+-- Versi PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,41 +18,30 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `perpustakaan`
+-- Database: `peminjaman_barang`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `buku`
+-- Struktur dari tabel `barang`
 --
 
-CREATE TABLE `buku` (
+CREATE TABLE `barang` (
   `id` int(11) NOT NULL,
-  `judul` varchar(255) NOT NULL,
-  `cover` varchar(255) NOT NULL,
+  `nama_barang` varchar(255) NOT NULL,
+  `alamat_gambar` varchar(255) NOT NULL,
   `pengarang` varchar(255) NOT NULL,
   `status` enum('tersedia','tidak tersedia','dipinjam') NOT NULL,
   `qty` int(11) NOT NULL,
-  `sinopsis` longtext NOT NULL,
+  `deskripsi_barang` longtext NOT NULL,
   `id_kategori` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `buku`
---
-
-INSERT INTO `buku` (`id`, `judul`, `cover`, `pengarang`, `status`, `qty`, `sinopsis`, `id_kategori`) VALUES
-(38, '1', 'fc841a8becfb3856b3ead68598aefb6f.jfif', 'asd', '', 12, 'asd', 1),
-(39, '2', '5314170e8b1cbe2f87f8ab157ed99829.webp', 'asd', '', 12, 'asd', 1),
-(40, '2', '9587fb3d42afb2e026b05b053fb86dff.webp', 'asd', '', 12, 'asd', 1),
-(42, '5', '948bfb17c768ab7e18f4e0378263eaad.jfif', 'asd', '', 12, 'asd', 4),
-(44, 'asd', '5e23d9c43f254f2849d8c40e9352e6e0.jfif', 'asd', '', 123, 'asd', 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `denda`
+-- Struktur dari tabel `denda`
 --
 
 CREATE TABLE `denda` (
@@ -62,55 +51,45 @@ CREATE TABLE `denda` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `denda`
+-- Dumping data untuk tabel `denda`
 --
 
 INSERT INTO `denda` (`id`, `jenis_denda`, `nominal_denda`) VALUES
-(1, 'belum ada denda', 0),
+(1, '', 0),
 (2, 'rusak', 1000000),
 (3, 'telat', 5000);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `kategori`
+-- Struktur dari tabel `kategori`
 --
 
 CREATE TABLE `kategori` (
   `id` int(11) NOT NULL,
-  `nama_kategori` enum('dongeng','ilmiah','hiburan','horror','romansa') NOT NULL
+  `nama_kategori` char(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `kategori`
---
-
-INSERT INTO `kategori` (`id`, `nama_kategori`) VALUES
-(1, 'dongeng'),
-(2, 'ilmiah'),
-(3, 'hiburan'),
-(4, 'horror'),
-(5, 'romansa');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `peminjaman`
+-- Struktur dari tabel `peminjaman`
 --
 
 CREATE TABLE `peminjaman` (
   `id` int(11) NOT NULL,
   `waktu_pinjam` datetime NOT NULL,
   `waktu_kembali` datetime NOT NULL,
+  `status` enum('menuggu','diterima','ditolak','dipinjam','dikembalikan') NOT NULL,
   `id_user` int(11) NOT NULL,
-  `id_buku` int(11) NOT NULL,
-  `id_denda` int(11) NOT NULL DEFAULT 1
+  `id_barang` int(11) NOT NULL,
+  `id_denda` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Struktur dari tabel `user`
 --
 
 CREATE TABLE `user` (
@@ -120,104 +99,104 @@ CREATE TABLE `user` (
   `photo_profile` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `role` enum('user','admin','petugas') NOT NULL,
+  `role` enum('peminjam','admin','petugas') NOT NULL,
   `status` enum('active','blokir') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `user`
+-- Dumping data untuk tabel `user`
 --
 
 INSERT INTO `user` (`id`, `nama_lengkap`, `username`, `photo_profile`, `email`, `password`, `role`, `status`) VALUES
-(4, 'asd', 'zakaramadan57@gmail.com', 'dff22cfd8f2021ea2149078240bc15fd.png', 'superadmin@gmail.com', 'asd', 'admin', 'active');
+(4, 'asd', 'superadmin@gmail.com', 'dff22cfd8f2021ea2149078240bc15fd.png', 'superadmin@gmail.com', 'asd', 'admin', 'active');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `buku`
+-- Indeks untuk tabel `barang`
 --
-ALTER TABLE `buku`
+ALTER TABLE `barang`
   ADD PRIMARY KEY (`id`),
   ADD KEY `buku_ibfk_1` (`id_kategori`);
 
 --
--- Indexes for table `denda`
+-- Indeks untuk tabel `denda`
 --
 ALTER TABLE `denda`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `kategori`
+-- Indeks untuk tabel `kategori`
 --
 ALTER TABLE `kategori`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `peminjaman`
+-- Indeks untuk tabel `peminjaman`
 --
 ALTER TABLE `peminjaman`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `peminjaman_ibfk_1` (`id_buku`),
+  ADD KEY `peminjaman_ibfk_1` (`id_barang`),
   ADD KEY `peminjaman_ibfk_2` (`id_user`),
   ADD KEY `id_denda` (`id_denda`);
 
 --
--- Indexes for table `user`
+-- Indeks untuk tabel `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `buku`
+-- AUTO_INCREMENT untuk tabel `barang`
 --
-ALTER TABLE `buku`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+ALTER TABLE `barang`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
--- AUTO_INCREMENT for table `denda`
+-- AUTO_INCREMENT untuk tabel `denda`
 --
 ALTER TABLE `denda`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `kategori`
+-- AUTO_INCREMENT untuk tabel `kategori`
 --
 ALTER TABLE `kategori`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT for table `peminjaman`
+-- AUTO_INCREMENT untuk tabel `peminjaman`
 --
 ALTER TABLE `peminjaman`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `user`
+-- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- Constraints for dumped tables
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
 --
--- Constraints for table `buku`
+-- Ketidakleluasaan untuk tabel `barang`
 --
-ALTER TABLE `buku`
-  ADD CONSTRAINT `buku_ibfk_1` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `barang`
+  ADD CONSTRAINT `barang_ibfk_1` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `peminjaman`
+-- Ketidakleluasaan untuk tabel `peminjaman`
 --
 ALTER TABLE `peminjaman`
-  ADD CONSTRAINT `peminjaman_ibfk_1` FOREIGN KEY (`id_buku`) REFERENCES `buku` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `peminjaman_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `peminjaman_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `peminjaman_ibfk_3` FOREIGN KEY (`id_denda`) REFERENCES `denda` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;

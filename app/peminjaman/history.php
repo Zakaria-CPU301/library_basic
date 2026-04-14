@@ -4,9 +4,9 @@ include '../../middleware/auth.php';
 
 $auth = $_SESSION['user'][0];
 $idu = $auth['id'];
-$queryPeminjaman = $koneksi->query("SELECT p.waktu_pinjam, p.waktu_kembali, b.cover, b.judul, d.nominal_denda, d.jenis_denda FROM peminjaman p
-                        INNER JOIN buku b
-                        ON b.id = p.id_buku
+$queryPeminjaman = $koneksi->query("SELECT p.waktu_pinjam, p.waktu_kembali, p.status, b.alamat_gambar, b.nama_barang, d.nominal_denda, d.jenis_denda FROM peminjaman p
+                        INNER JOIN barang b
+                        ON b.id = p.id_barang
                         INNER JOIN denda d
                         ON d.id = p.id_denda
                         WHERE p.id_user = $idu
@@ -57,7 +57,7 @@ $peminjaman = $queryPeminjaman->fetch_all(MYSQLI_ASSOC);
         .card img {
             width: 80px;
             height: 110px;
-            object-fit: cover;
+            object-fit: alamat_gambar;
             border-radius: 6px;
         }
 
@@ -115,31 +115,22 @@ $peminjaman = $queryPeminjaman->fetch_all(MYSQLI_ASSOC);
     <div class="container">
         <h1>History Peminjaman</h1>
 
-        <?php for ($i = 0; $i <= 10; $i++) : ?>
-            <marquee behavior="" direction="">
-                <p>
-                <h1>
-                    TAHAP DEVELOPMENT: FIX WITH DEBUGGING
-                </h1>
-                </p>
-            </marquee>
-        <?php endfor ?>
-
         <?php foreach ($peminjaman as $p) : ?>
             <div class="card">
-                <img src="../images/<?= $p['cover'] ?>" alt="<?= $p['judul'] ?>">
+                <img src="../gambar/<?= $p['alamat_gambar'] ?>" alt="<?= $p['nama_barang'] ?>">
 
                 <div class="card-content">
-                    <h3><?= $p['judul'] ?></h3>
+                    <h3><?= $p['nama_barang'] ?></h3>
 
                     <p><b>Mulai:</b> <?= $p['waktu_pinjam'] ?></p>
                     <p><b>Kembali:</b> <?= $p['waktu_kembali'] ?></p>
 
-                    <?php if ($p['jenis_denda'] === 'belum ada denda') : ?>
-                        <span class="badge badge-success">
-                            Tidak ada denda
-                        </span>
-                    <?php else: ?>
+
+                    <span class="badge badge-danger">
+                        <?= $p['status'] ?>
+                    </span>
+
+                    <?php if (!empty($p['jenis_denda'])) : ?>
                         <span class="badge badge-danger">
                             Denda: Rp <?= number_format($p['nominal_denda'], 0, ',', '.') ?>
                         </span>

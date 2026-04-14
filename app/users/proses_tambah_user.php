@@ -11,7 +11,7 @@ $password = $_POST['password'];
 
 $ext = pathinfo($photo_profile['name'], PATHINFO_EXTENSION);
 $imageHashName = md5($photo_profile['name']) . '.' . $ext;
-move_uploaded_file($photo_profile['tmp_name'], '../images/' . $imageHashName);
+move_uploaded_file($photo_profile['tmp_name'], '../gambar/' . $imageHashName);
 
 $query = $koneksi->query("INSERT INTO user VALUES ('', '$nama_lengkap', '$username','$imageHashName', '$email', '$password',  '$role', 'active')");
 

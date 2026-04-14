@@ -4,11 +4,11 @@ include '../../middleware/auth.php';
 
 $idb = $_GET['idb'];
 
-$queryBook = $koneksi->query("SELECT b.*, k.nama_kategori FROM buku b 
+$querybarang = $koneksi->query("SELECT b.*, k.nama_kategori FROM barang b 
                                         INNER JOIN kategori k 
                                             ON k.id = b.id_kategori
                                             WHERE b.id = $idb");
-$books = $queryBook->fetch_all(MYSQLI_ASSOC);
+$barang = $querybarang->fetch_all(MYSQLI_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +17,7 @@ $books = $queryBook->fetch_all(MYSQLI_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Buku</title>
+    <title>Detail barang</title>
     <style>
         * {
             margin: 0;
@@ -52,7 +52,7 @@ $books = $queryBook->fetch_all(MYSQLI_ASSOC);
         .detail-image img {
             width: 200px;
             height: 300px;
-            object-fit: cover;
+            object-fit: alamat_gambar;
             border-radius: 10px;
         }
 
@@ -77,7 +77,7 @@ $books = $queryBook->fetch_all(MYSQLI_ASSOC);
             border-top: 1px solid #e5e7eb;
         }
 
-        .sinopsis {
+        .deskripsi_barang {
             font-size: 14px;
             line-height: 1.6;
             color: #555;
@@ -168,26 +168,26 @@ $books = $queryBook->fetch_all(MYSQLI_ASSOC);
 
     <div class="detail-container">
         <div class="detail-card">
-            <?php foreach ($books as $book) : ?>
+            <?php foreach ($barang as $b) : ?>
                 <!-- KIRI: COVER -->
                 <div class="detail-image">
-                    <img src="../images/<?= $book['cover']; ?>">
+                    <img src="../gambar/<?= $b['alamat_gambar']; ?>">
                 </div>
 
                 <!-- KANAN: INFO -->
                 <div class="detail-content">
-                    <h2><?= $book['judul']; ?></h2>
+                    <h2><?= $b['nama_barang']; ?></h2>
 
-                    <p><b>Pengarang:</b> <?= $book['pengarang']; ?></p>
-                    <p><b>Kategori:</b> <?= $book['nama_kategori']; ?></p>
-                    <p><b>Status:</b> <?= $book['status']; ?></p>
-                    <p><b>Stok:</b> <?= $book['qty']; ?></p>
+                    <p><b>Pengarang:</b> <?= $b['pengarang']; ?></p>
+                    <p><b>Kategori:</b> <?= $b['nama_kategori']; ?></p>
+                    <p><b>Status:</b> <?= $b['status']; ?></p>
+                    <p><b>Stok:</b> <?= $b['qty']; ?></p>
 
                     <hr>
 
                     <h3>Sinopsis</h3>
-                    <p class="sinopsis">
-                        <?= $book['sinopsis']; ?>
+                    <p class="deskripsi_barang">
+                        <?= $b['deskripsi_barang']; ?>
                     </p>
 
                     <div class="nav-footer">
@@ -199,10 +199,10 @@ $books = $queryBook->fetch_all(MYSQLI_ASSOC);
                                 <div class="err"><?= $_SESSION['error'] ?></div>
                             <?php endif; ?>
                             <?php unset($_SESSION['error']) ?>
-                            <form action="proses_peminjaman.php?idb=<?= $idb ?>" method="post">
+                            <form action="../peminjaman/proses_peminjaman.php?idb=<?= $idb ?>" method="post">
                                 <label for="start">Mulai Peminjaman</label>
                                 <input type="datetime-local" min="<?= date('Y-m-d\TH:i') ?>" name="start" id="start">
-                                <label for="finish">Pengembalian Buku</label>
+                                <label for="finish">Pengembalian barang</label>
                                 <input type="datetime-local" min="<?= date('Y-m-d\TH:i') ?>" name="finish" id="finish">
                                 <button type="submit">Pinjam</button>
                             </form>

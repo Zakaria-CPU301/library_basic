@@ -39,7 +39,7 @@ $users = $queryUser->fetch_all(MYSQLI_ASSOC);
         <?php foreach ($users as $num => $user) : ?>
             <tr>
                 <td><?= $num + 1 ?></td>
-                <td><img src="../images/<?= $user['photo_profile'] ?>" alt=""></td>
+                <td><img src="../gambar/<?= $user['photo_profile'] ?>" alt=""></td>
                 <td><?= $user['nama_lengkap'] ?></td>
                 <td><?= $user['username'] ?></td>
                 <td><?= $user['email'] ?></td>

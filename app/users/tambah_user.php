@@ -20,15 +20,15 @@
         <input type="email" name="email" id="" placeholder="Email">
 
         <input type="password" name="password" id="" placeholder="Password">
-        
-        
+
+
         <select name="role">
             <option value="admin">Admin</option>
             <option value="petugas">Petugas</option>
             <option value="peminjam">Peminjam</option>
         </select>
 
-        <button type="submit">Simpan Buku</button>
+        <button type="submit">Simpan barang</button>
     </form>
 </body>
 
