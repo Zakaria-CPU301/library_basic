@@ -192,7 +192,7 @@ $barang = $querybarang->fetch_all(MYSQLI_ASSOC);
 
                     <div class="nav-footer">
                         <div>
-                            <a href="index.php" class="back-btn">← Kembali</a>
+                            <a href="tampil_barang.php" class="back-btn">← Kembali</a>
                         </div>
                         <div class="request-borrowing">
                             <?php if (isset($_SESSION['error'])) : ?>

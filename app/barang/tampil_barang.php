@@ -174,7 +174,7 @@ $books = $queryBook->fetch_all(MYSQLI_ASSOC); //per baris
                                 <td><?= $row + 1 ?></td>
 
                                 <td>
-                                    <img src="../gambar/<?= $data['alamat_gambar'] ?>" class="alamat_gambar">
+                                    <img src="../gambar/<?= $data['alamat_gambar'] ?>" alt="<?= $data['alamat_gambar'] ?>" class="">
                                 </td>
 
                                 <td><?= $data['nama_barang'] ?></td>

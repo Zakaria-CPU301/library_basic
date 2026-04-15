@@ -2,7 +2,7 @@
 include '../../middleware/auth.php';
 include '../../koneksi/koneksi.php';
 
-$queryPeminjaman = $koneksi->query("SELECT b.alamat_gambar, b.nama_barang, p.waktu_pinjam, p.waktu_kembali, p.status, u.nama_lengkap, u.email FROM peminjaman p
+$queryPeminjaman = $koneksi->query("SELECT b.alamat_gambar, b.nama_barang, p.id, p.waktu_pinjam, p.waktu_kembali, p.status, u.nama_lengkap, u.email FROM peminjaman p
                                             INNER JOIN user u ON u.id = p.id_user
                                             INNER JOIN barang b ON b.id = p.id_barang
                                             INNER JOIN denda d ON d.id = p.id_denda");
@@ -50,11 +50,14 @@ $hasilPeminjaman = $queryPeminjaman->fetch_all(MYSQLI_ASSOC);
                 <td><?= $peminjaman['nama_lengkap'] ?></td>
                 <td><?= $peminjaman['email'] ?></td>
                 <td><?= $peminjaman['status'] ?></td>
-                <?php if ($peminjaman['status'] === 'diterima') : ?>
-                    <td colspan="2"><a href="">barang Dikembalikan</a></td>
-                <?php else: ?>
-                    <td><a href="">Terima</a></td>
-                    <td><a href="">Tolak</a></td>
+                <?php if ($peminjaman['status'] === 'dipinjam') : ?>
+                    <td colspan="2"><a href="proses_aksi.php?aksi=dikembalikan&pid=<?= $peminjaman['id'] ?>">Barang Dikembalikan</a></td>
+                <?php elseif ($peminjaman['status'] === 'diterima') : ?>
+                    <td><a href="proses_aksi.php?aksi=dipinjam&pid=<?= $peminjaman['id'] ?>">Barang Diambil</a></td>
+                    <td><a href="cetak_peminjaman.php?pid=<?= $peminjaman['id'] ?>">Cetak Laporan</a></td>
+                <?php else : ?>
+                    <td><a href="proses_aksi.php?aksi=ditolak&pid=<?= $peminjaman['id'] ?>">Tolak</a></td>
+                    <td><a href="proses_aksi.php?aksi=diterima&pid=<?= $peminjaman['id'] ?>">Terima</a></td>
                 <?php endif; ?>
             </tr>
         <?php endforeach; ?>

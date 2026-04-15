@@ -1,3 +1,7 @@
+<?php
+include '../../middleware/auth.php' ?>
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +10,8 @@
     <title>Document</title>
 </head>
 <body>
+    <?php include '../components/sidebar.php' ?>
+    
     <h1>TAMBAH KATEGORI</h1>
     <form action="proses_tambah_kategori.php" method="POST">
         <input type="text" name="nama_kategori" id="" placeholder="nama kategori">

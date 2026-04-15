@@ -14,6 +14,8 @@ $hasilkategori = $querykategori->fetch_all(MYSQLI_ASSOC);
     <title>Document</title>
 </head>
 <body>
+    <?php include '../components/sidebar.php' ?>
+    
     <a href="tambah_kategori.php">tambah kategori</a>
     <table>
         <tr>

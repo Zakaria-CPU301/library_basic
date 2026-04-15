@@ -16,9 +16,9 @@ if ($finish < $start) {
     include $_SERVER['DOCUMENT_ROOT'] . '/perpus/middleware/auth.php';
     $_SESSION['error'] = 'Waktu pengembalian tidak valid';
 
-    header('location: detail-barang.php?idb=' . $idb);
+    header('location: ../barang/detail-barang.php?idb=' . $idb);
 } else {
-    $queryPeminjaman = $koneksi->query("INSERT INTO peminjaman VALUES ('', '$waktu_pinjam', '$waktu_kembali', $idu, $idb, 1)");
+    $queryPeminjaman = $koneksi->query("INSERT INTO peminjaman VALUES ('', '$waktu_pinjam', '$waktu_kembali', 'menunggu', $idu, $idb, 1)");
 
     header("location: ../peminjaman/history.php");
 }
